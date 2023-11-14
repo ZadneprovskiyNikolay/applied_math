@@ -82,9 +82,13 @@ def can_be_improved(tableau):
     return any(x > 0 for x in z)
 
 def get_pivot_pos(tableau, basic_var_idxs):
-    z = tableau[-1][:-1]
     # Выбираем переменную с самым большим коэффициентом(производной) в целевой функции для внесения в базис
-    max_z_coef_col = int(np.argmax(z))
+    z = tableau[-1][:-1]
+    max_z_coef = -math.inf
+    for col, coef in enumerate(z):
+        if col not in basic_var_idxs and coef > max_z_coef:
+            max_z_coef = coef
+            max_z_coef_col = col
  
     # Находим переменную которая будет удалена из базиса, для этого найдем самое ближайшее ограничение в выбранном направлении
     max_ratio = -1
